@@ -1,1 +1,18 @@
-
+version: 2.1
+orbs:
+  node: circleci/node@5.0.1
+jobs:
+  build:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout #copies the working directory of the project
+      - node/install-packages:
+          pkg-manager: nom
+      - run: |
+          echo "Installing dependencies..."
+          npm install
+workflow:
+  simple_workflow:
+    jobs:
+      - build
