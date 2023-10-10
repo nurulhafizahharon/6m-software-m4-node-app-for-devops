@@ -6,13 +6,27 @@ jobs:
     docker:
       - image: cimg/node:16.10
     steps:
-      - checkout #copies the working directory of the project
+      - checkout
       - node/install-packages:
-          pkg-manager: nom
+          pkg-manager: npm
       - run: |
           echo "Installing dependencies..."
           npm install
-workflow:
+  test:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run: |
+          echo "Running tests..."
+          npm run test
+
+workflows:
   simple_workflow:
     jobs:
       - build
+      - test:
+          requires:
+            - build
