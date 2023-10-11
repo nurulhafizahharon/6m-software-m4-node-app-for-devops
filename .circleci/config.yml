@@ -43,11 +43,12 @@ jobs: # instructions for each step
       - setup_remote_deocker
       - heroku/install #installs heroku cli for our run command
       - checkout
-      - run
-        name: Heroku Container Push #the name of the group of commands we are running
-        command: |
-          heroku container:login
-          heroku container:push web -a nurulhafizah-su-devops
+      - run:
+          name: Heroku Container Push # the name of the group of commands we are running
+          command: |
+            heroku container:login
+            heroku container:push web -a nurulhafizah-su-devops
+            heroku container:release web -a nurulhafizah-su-devops
         # The push command pushes the image to heroku's container registry
         # The release command deploys the image from heroku's container registry
 
