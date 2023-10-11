@@ -1,13 +1,14 @@
 version: 2.1
-orbs:
+orbs: # packages
   node: circleci/node@5.0.1
-  docker: circleci/docker@2.1.4 #allows us to use docker
-jobs:
-  build:
-    docker:
+  docker: circleci/docker@2.1.4 # allows us to use docker orb's commands
+  heroku: circleci/heroku@2.0.0
+jobs: # instructions for each step
+  build: # Build the application, ie install dependencies
+    docker: # container to handle to steps
       - image: cimg/node:16.10
     steps:
-      - checkout
+      - checkout # copies the working directory of th project
       - node/install-packages:
           pkg-manager: npm
       - run: |
@@ -35,8 +36,22 @@ jobs:
       - docker/push:
           image: norulehapizah/education-space
           tag: 1.0.1
+  depoly:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - setup_remote_deocker
+      - heroku/install #installs heroku cli for our run command
+      - checkout
+      - run
+        name: Heroku Container Push #the name of the group of commands we are running
+        command: |
+          heroku container:login
+          heroku container:push web -a nurulhafizah-su-devops
+        # The push command pushes the image to heroku's container registry
+        # The release command deploys the image from heroku's container registry
 
-workflows:
+workflows: # defines how each job would run and relate to each other and any other dependent states (eg: only run if pushed to main branch)
   simple_workflow:
     jobs:
       - build
@@ -46,3 +61,6 @@ workflows:
       - build-and-push:
           requires:
             - test
+      - depoly:
+          requires:
+            - build-and-push
