@@ -6,7 +6,8 @@ describe("the print function", () => {
     jest.clearAllMocks();
   });
 
-  it("should respond with 'Hello world!'", () => {
+  it("Request and response should be the same.", () => {
+    // test name
     const mockReq = {};
     const mockRes = {
       send: jest.fn(),
