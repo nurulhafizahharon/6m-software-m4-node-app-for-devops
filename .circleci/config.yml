@@ -26,7 +26,7 @@ jobs: # instructions for each step
       - run: |
           echo "Running tests..."
           npm run test
-    when: 
+    when:
       branch: main
   build-and-push:
     executor: docker/docker # State the environment that we're using
@@ -34,7 +34,7 @@ jobs: # instructions for each step
       - setup_remote_docker #This allows use to run docker commands just in case
       - checkout
       - docker/check
-      -run:
+      - run:
         name: Build and Push Docker Image
         command: |
           docker build -t norulehapizah/education-space:${CIRCLECI_PARAMETER_version} .
