@@ -15,7 +15,7 @@ jobs: # instructions for each step
           echo "Installing dependencies..."
           npm install
     when:
-      branch: main
+      - branch: main
   test:
     docker:
       - image: cimg/node:16.10
@@ -27,7 +27,7 @@ jobs: # instructions for each step
           echo "Running tests..."
           npm run test
     when:
-      branch: main
+      - branch: main
   build-and-push:
     executor: docker/docker # State the environment that we're using
     steps:
@@ -66,7 +66,7 @@ jobs: # instructions for each step
   #       # The release command deploys the image from heroku's container registry
 
 workflows: # defines how each job would run and relate to each other and any other dependent states (eg: only run if pushed to main branch)
-  version: 2
+  # version: 2
   simple_workflow:
     jobs:
       - build:
