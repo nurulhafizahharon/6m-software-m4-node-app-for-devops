@@ -14,8 +14,8 @@ jobs: # instructions for each step
       - run: |
           echo "Installing dependencies..."
           npm install
-    when:
-      - branch: main
+    # when:
+    #   - branch: main
   test:
     docker:
       - image: cimg/node:16.10
@@ -26,8 +26,8 @@ jobs: # instructions for each step
       - run: |
           echo "Running tests..."
           npm run test
-    when:
-      - branch: main
+    # when:
+    #   - branch: main
   build-and-push:
     executor: docker/docker # State the environment that we're using
     steps:
@@ -70,15 +70,15 @@ workflows: # defines how each job would run and relate to each other and any oth
   simple_workflow:
     jobs:
       - build:
-          filters:
-            branches:
-              only: main
+        # filters:
+        #   branches:
+        #     only: main
       - test:
           requires:
             - build
-          filters:
-            branches:
-              only: main
+          # filters:
+          #   branches:
+          #     only: main
       - build-and-push:
           requires:
             - test
