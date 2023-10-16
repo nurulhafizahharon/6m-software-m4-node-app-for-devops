@@ -39,18 +39,18 @@ jobs: # instructions for each step
       - docker/push:
           image: norulehapizah/education-space
           tag: << pipeline.git.tag >>
-    scan:
-      docker:
-        - image: cimg/node:16.10
-      environment:
-        IMAGE_NAME: norulehapizah/education-space # The IMAGE_NAME is a variable we could use in ourjobs/steps
-      steps:
-        - checkout
-        - setup_remote_docker
-        - docker/check
-        - run: docker build -t $IMAGE_NAME . #$IMAGE_NAME gets the value of the IMAGE_NAME from the environment defined above
-        - snyk/scan:
-            docker-image-name: $IMAGE_NAME
+  scan:
+    docker:
+      - image: cimg/node:16.10
+    environment:
+      IMAGE_NAME: norulehapizah/education-space # The IMAGE_NAME is a variable we could use in ourjobs/steps
+    steps:
+      - checkout
+      - setup_remote_docker
+      - docker/check
+      - run: docker build -t $IMAGE_NAME . #$IMAGE_NAME gets the value of the IMAGE_NAME from the environment defined above
+      - snyk/scan:
+          docker-image-name: $IMAGE_NAME
 
   # deploy:
   #   docker:
