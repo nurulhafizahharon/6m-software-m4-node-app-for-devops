@@ -72,10 +72,16 @@ jobs: # instructions for each step
 workflows: # defines how each job would run and relate to each other and any other dependent states (eg: only run if pushed to main branch)
   simple_workflow:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: main
       - test:
           requires:
             - build
+          filters:
+            branches:
+              only: main
       - build-and-push:
           requires:
             - test
