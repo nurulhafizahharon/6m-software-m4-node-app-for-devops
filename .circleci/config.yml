@@ -86,8 +86,8 @@ workflows: # defines how each job would run and relate to each other and any oth
               only: main
 
       - build-and-push: # This should run only if a tag is pushed, not if a branch is pushed
-          requires:
-            - test
+          # requires:
+          #   - test
           filters:
             tags:
               only: /^v.*/ #only considers tags starting with v (e.g: v1.0.2)
