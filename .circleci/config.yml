@@ -35,10 +35,11 @@ jobs: # instructions for each step
       - docker/check
       - docker/build:
           image: norulehapizah/education-space
-          tag: << pipeline.git.tag >>
+          tag: <<pipeline.git.tag>>
       - docker/push:
           image: norulehapizah/education-space
-          tag: << pipeline.git.tag >>
+          tag: <<pipeline.git.tag>>
+
   scan:
     docker:
       - image: cimg/node:16.10
@@ -76,21 +77,28 @@ workflows: # defines how each job would run and relate to each other and any oth
           filters:
             branches:
               only: main
+
       - test:
           requires:
             - build
           filters:
             branches:
               only: main
-      - build-and-push:
+
+      - build-and-push: # This should run only if a tag is pushed, not if a branch is pushed
           requires:
             - test
           filters:
             tags:
-              only: /^v\d+\.\d+\.\d+$/
+              only: /^v.*/ #only considers tags starting with v (e.g: v1.0.2)
+              # only: /^v\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+
       - scan:
           requires:
             - build
+
       # - deploy:
       #     requires:
       #       - build-and-push
